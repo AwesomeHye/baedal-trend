@@ -1,0 +1,6 @@
+rootProject.name = 'baedal-trend'
+include 'aws'
+include 'open-api'
+include 'elasticsearch'
+include 'baedal-trend-batch'
+include 'baedal-trend-service'
