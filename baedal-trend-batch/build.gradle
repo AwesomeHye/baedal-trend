@@ -3,4 +3,9 @@ jar { enabled = true}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'mysql:mysql-connector-java'
+
+    implementation project(':open-api')
+    implementation project(':aws')
+    implementation project(':elasticsearch')
 }

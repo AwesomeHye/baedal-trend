@@ -1,14 +1,14 @@
-package dev.elsboo.openapi;
+package dev.elsboo.elasticsearch;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
-public class OpenApiUtil {
+public class ElasticsearchUtil {
 
-	public static void main() {
-		log.info("OpenApi called");
-	}
+    public static void main() {
+        log.info("ElasticsearchUtil called");
+    }
 
 }
