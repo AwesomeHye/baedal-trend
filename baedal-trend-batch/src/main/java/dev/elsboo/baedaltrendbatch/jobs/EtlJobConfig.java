@@ -23,8 +23,22 @@ public class EtlJobConfig {
     public Job extractJob() {
         return jobBuilderFactory.get("etlJob")
             .start(apiStep())
-            .next(s3Step())
+            .on("FAILED") // failed 이면
+            .to(apiFailStep()) // apiFailStep 으로 이동
+            .on("*") // apiFailStep 결과 관계 없이
+            .end()
+            .from(apiStep()) // apiStep 이
+            .on("*") // failed 외 모든 경우
+            .to(s3Step()) // 다음 step 진행
             .next(esStep())
+            .end()
+            .build();
+    }
+
+    @Bean
+    public Step apiFailStep() {
+        return stepBuilderFactory.get("apiFailStep")
+            .tasklet(new ApiTasklet())
             .build();
     }
 

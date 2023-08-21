@@ -11,4 +11,7 @@ public class OpenApiUtil {
 		log.info("OpenApi called");
 	}
 
+	public static void fail() {
+		log.info("OpenApi failed");
+	}
 }
