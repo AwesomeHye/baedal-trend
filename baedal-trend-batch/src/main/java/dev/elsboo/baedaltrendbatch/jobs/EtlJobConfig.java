@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,12 +24,12 @@ public class EtlJobConfig {
     @Bean
     public Job extractJob() {
         return jobBuilderFactory.get("etlJob")
-            .start(apiStep())
+            .start(apiStep(null))
             .on("FAILED") // failed 이면
             .to(apiFailStep()) // apiFailStep 으로 이동
             .on("*") // apiFailStep 결과 관계 없이
             .end()
-            .from(apiStep()) // apiStep 이
+            .from(apiStep(null)) // apiStep 이
             .on("*") // failed 외 모든 경우
             .to(s3Step()) // 다음 step 진행
             .next(esStep())
@@ -43,7 +45,9 @@ public class EtlJobConfig {
     }
 
     @Bean
-    public Step apiStep() {
+    @JobScope
+    public Step apiStep(@Value("#{jobParameters[requestDate]}") String requestDate) {
+        log.info(requestDate);
         return stepBuilderFactory.get("apiStep")
             .tasklet(new ApiTasklet())
             .build();
