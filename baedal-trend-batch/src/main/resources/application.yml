@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3206/spring_batch
+    username: root
+    password: 9999
+  sql:
+    init:
+      schema-locations: classpath:/org/springframework/batch/core/schema-mysql.sql
+      mode: always
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+
